@@ -32,7 +32,7 @@ function textFromContent(content: unknown) {
     .join("\n");
 }
 
-interface ClipboardCommand {
+export interface ClipboardCommand {
   command: string;
   args: string[];
 }
@@ -55,10 +55,15 @@ function clipboardCommands() {
     : [xclip, xsel, wayland, pbcopy];
 }
 
-function writeClipboard(command: ClipboardCommand, text: string) {
+export function writeClipboard(command: ClipboardCommand, text: string) {
   return new Promise<void>((resolve, reject) => {
-    const child = spawn(command.command, command.args);
-    let stderr = "";
+    // wl-copy and xclip can fork clipboard-serving children that inherit
+    // stdout/stderr. If either stream is piped, Node waits for that long-lived
+    // descendant and the Pi command appears frozen. Clipboard commands do not
+    // return useful output, so disconnect both streams.
+    const child = spawn(command.command, command.args, {
+      stdio: ["pipe", "ignore", "ignore"],
+    });
     let settled = false;
 
     const fail = (error: Error) => {
@@ -67,9 +72,6 @@ function writeClipboard(command: ClipboardCommand, text: string) {
       reject(error);
     };
 
-    child.stderr.on("data", (chunk) => {
-      stderr += String(chunk);
-    });
     child.once("error", fail);
     child.once("close", (code) => {
       if (settled) return;
@@ -78,11 +80,7 @@ function writeClipboard(command: ClipboardCommand, text: string) {
         resolve();
         return;
       }
-      reject(
-        new Error(
-          stderr.trim() || `${command.command} exited with code ${code}`,
-        ),
-      );
+      reject(new Error(`${command.command} exited with code ${code}`));
     });
     child.stdin.end(text);
   });

@@ -1,6 +1,6 @@
 {
   "name": "oh-senpi",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A curated monorepo of Pi extensions, workflows, skills, and themes.",
   "type": "module",
   "author": "Aarsh <aarshpersonal@proton.me>",
@@ -29,7 +29,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "npm run check && npm run format:check",
-    "test": "node --test --experimental-strip-types extensions/background-terminals/*.test.ts extensions/git-info/*.test.ts extensions/hunk-review/*.test.ts extensions/shared/*.test.ts extensions/subagents/manager.test.ts extensions/subagents/result-delivery.test.ts extensions/subagents/context-usage.test.ts extensions/subagents/takeover.test.ts extensions/workflows/*.test.ts extensions/web-access/test/*.test.mjs",
+    "test": "node --test --experimental-strip-types extensions/background-terminals/*.test.ts extensions/copy-all/*.test.ts extensions/git-info/*.test.ts extensions/hunk-review/*.test.ts extensions/shared/*.test.ts extensions/subagents/manager.test.ts extensions/subagents/result-delivery.test.ts extensions/subagents/context-usage.test.ts extensions/subagents/takeover.test.ts extensions/workflows/*.test.ts extensions/web-access/test/*.test.mjs",
     "test:live": "node --test --experimental-strip-types extensions/subagents/claude.test.ts extensions/subagents/codex.test.ts",
     "postinstall": "node ./scripts/postinstall.mjs"
   },
