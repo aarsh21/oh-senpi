@@ -4,6 +4,8 @@ A curated monorepo of Pi extensions, multi-agent tools, UI customizations, skill
 
 > Pi packages execute code with your full user permissions. Review the source before installing.
 
+> **Current desktop support:** Hunk Review, Zed Prompt, and live theme synchronization work only with **Omarchy + Hyprland**. macOS + AeroSpace support is planned in [TODO.md](TODO.md) and [issue #1](https://github.com/aarsh21/oh-senpi/issues/1). The other extensions do not require Omarchy.
+
 ## Install
 
 The command you were thinking of is `pi install`:
@@ -11,6 +13,8 @@ The command you were thinking of is `pi install`:
 ```sh
 pi install git:github.com/aarsh21/oh-senpi
 ```
+
+On the first interactive Pi startup, Oh Senpi asks whether you use Omarchy + Hyprland and offers an optional dependency check. It can install missing Hunk Diff through npm, reports other missing commands, and skips theme/desktop setup for other environments. Run `/senpi-setup` at any time to reopen the wizard.
 
 Restart Pi, or run `/reload` in an existing session. Open the package manager to enable or disable individual resources:
 
@@ -31,27 +35,28 @@ pi update --extension git:github.com/aarsh21/oh-senpi
 pi remove git:github.com/aarsh21/oh-senpi
 ```
 
-For reproducible installs, append a release tag, for example `@v0.1.1`.
+For reproducible installs, append a release tag, for example `@v0.2.0`.
 
 ## Included resources
 
-| Resource                       | What it adds                                                                         | Extra requirements                                                                                                                     |
-| ------------------------------ | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| **Web Access**                 | `web_search`, page/PDF/GitHub/video fetching, search curator, and provider fallbacks | Search-provider credentials are optional; OpenAI search can reuse Pi Codex login. `ffmpeg` and `yt-dlp` are optional for video frames. |
-| **Web Search Only**            | Keeps only `web_search`, forces OpenAI, and disables the browser curator             | Enable together with Web Access. Authenticate through Pi's OpenAI/Codex `/login` or configure an OpenAI key.                           |
-| **Ask User**                   | `ask_user` multiple-choice tool with a custom-answer editor                          | Interactive Pi TUI.                                                                                                                    |
-| **Background Terminals**       | `bg_start`, `bg_status`, `bg_list`, `bg_kill`, and `/ps`                             | No Omarchy/Hyprland dependency. Uses `/bin/sh` on Unix and `cmd.exe` on Windows.                                                       |
-| **Copy All**                   | `/copy-all` copies the current user/assistant thread                                 | `pbcopy` on macOS, `wl-copy` on Wayland, `xclip`/`xsel` on X11, or `clip.exe` on Windows.                                              |
-| **Git Info**                   | Branch, dirty-file and pull-request status plus `/lg` and `/pr`                      | `git`; `gh` is optional and required only for pull-request lookup.                                                                     |
-| **Hunk Review**                | `/diff` opens Hunk and imports review notes into Pi                                  | **Omarchy + Hyprland required**, plus `hunk`, `hyprctl`, and `omarchy-launch-tui`.                                                     |
-| **Model Info**                 | Model, thinking, context, cost, and token-speed state for the custom dashboard       | No external dependency.                                                                                                                |
-| **Subagents**                  | Pi, Claude Code, and Codex background subagents plus `/subagents`                    | Pi backend works in-process. Claude backend needs Claude Code auth; Codex backend needs the `codex` CLI and auth.                      |
-| **UI Customization**           | Custom Pi header/footer with model and Git dashboard information                     | No Omarchy/Hyprland dependency; best used with Git Info and Model Info.                                                                |
-| **Workflows**                  | Sandboxed, model-authored multi-agent `workflow` tool and `/workflows` dashboard     | A Node runtime with permission-model support; no Omarchy/Hyprland dependency.                                                          |
-| **Zed Prompt**                 | `Ctrl+E` opens the current prompt in Zed, then sends it when saved                   | **Hyprland required** and Zed's `zeditor` CLI. Omarchy itself is not required.                                                         |
-| **Background Terminals skill** | Guidance for operating the background-terminal tools                                 | Enable with the matching extension.                                                                                                    |
-| **Subagents skill**            | Harness/model guidance for the subagent tools                                        | Enable with the matching extension.                                                                                                    |
-| **Themes**                     | `github-dark-default` and an Omarchy palette snapshot                                | Static themes work anywhere. Live Omarchy syncing is optional and described below.                                                     |
+| Resource                       | What it adds                                                                             | Extra requirements                                                                                                                     |
+| ------------------------------ | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Setup Wizard**               | `/senpi-setup` checks optional dependencies and configures supported desktop integration | Prompts once on first interactive startup; Omarchy theming is skipped when the user selects another environment.                       |
+| **Web Access**                 | `web_search`, page/PDF/GitHub/video fetching, search curator, and provider fallbacks     | Search-provider credentials are optional; OpenAI search can reuse Pi Codex login. `ffmpeg` and `yt-dlp` are optional for video frames. |
+| **Web Search Only**            | Keeps only `web_search`, forces OpenAI, and disables the browser curator                 | Enable together with Web Access. Authenticate through Pi's OpenAI/Codex `/login` or configure an OpenAI key.                           |
+| **Ask User**                   | `ask_user` multiple-choice tool with a custom-answer editor                              | Interactive Pi TUI.                                                                                                                    |
+| **Background Terminals**       | `bg_start`, `bg_status`, `bg_list`, `bg_kill`, and `/ps`                                 | No Omarchy/Hyprland dependency. Uses `/bin/sh` on Unix and `cmd.exe` on Windows.                                                       |
+| **Copy All**                   | `/copy-all` copies the current user/assistant thread                                     | `pbcopy` on macOS, `wl-copy` on Wayland, `xclip`/`xsel` on X11, or `clip.exe` on Windows.                                              |
+| **Git Info**                   | Branch, dirty-file and pull-request status plus `/lg` and `/pr`                          | `git`; `gh` is optional and required only for pull-request lookup.                                                                     |
+| **Hunk Review**                | `/diff` opens Hunk and imports review notes into Pi                                      | **Omarchy + Hyprland required**, plus `hunk`, `hyprctl`, and `omarchy-launch-tui`.                                                     |
+| **Model Info**                 | Model, thinking, context, cost, and token-speed state for the custom dashboard           | No external dependency.                                                                                                                |
+| **Subagents**                  | Pi, Claude Code, and Codex background subagents plus `/subagents`                        | Pi backend works in-process. Claude backend needs Claude Code auth; Codex backend needs the `codex` CLI and auth.                      |
+| **UI Customization**           | Custom Pi header/footer with model and Git dashboard information                         | No Omarchy/Hyprland dependency; best used with Git Info and Model Info.                                                                |
+| **Workflows**                  | Sandboxed, model-authored multi-agent `workflow` tool and `/workflows` dashboard         | A Node runtime with permission-model support; no Omarchy/Hyprland dependency.                                                          |
+| **Zed Prompt**                 | `Ctrl+E` opens the current prompt in Zed, then sends it when saved                       | **Omarchy + Hyprland currently required**, plus Zed's `zeditor` CLI.                                                                   |
+| **Background Terminals skill** | Guidance for operating the background-terminal tools                                     | Enable with the matching extension.                                                                                                    |
+| **Subagents skill**            | Harness/model guidance for the subagent tools                                            | Enable with the matching extension.                                                                                                    |
+| **Themes**                     | `github-dark-default` and an Omarchy palette snapshot                                    | Static themes work anywhere. Live Omarchy syncing is optional and described below.                                                     |
 
 ## Web Access modes
 
@@ -88,7 +93,7 @@ Filters narrow the resources declared in [`package.json`](package.json). Add mor
 
 ## Omarchy live theme (optional)
 
-Most of Oh Senpi does **not** require Omarchy or Hyprland. Only Hunk Review requires both; Zed Prompt requires Hyprland; live theme synchronization requires Omarchy.
+Most of Oh Senpi does **not** require Omarchy or Hyprland. For now, the complete desktop integration—Hunk Review, Zed Prompt, and live theme synchronization—is supported only on Omarchy + Hyprland. The setup wizard asks which environment the user runs; choosing anything else skips theming and desktop setup. macOS + AeroSpace support is a tracked TODO.
 
 The included `omarchy` theme is a portable snapshot. On an Omarchy system, install the optional hook to regenerate an `omarchy-live` Pi theme whenever Omarchy changes themes:
 
