@@ -31,7 +31,7 @@ pi update --extension git:github.com/aarsh21/oh-senpi
 pi remove git:github.com/aarsh21/oh-senpi
 ```
 
-For reproducible installs, append a release tag, for example `@v0.1.0`.
+For reproducible installs, append a release tag, for example `@v0.1.1`.
 
 ## Included resources
 

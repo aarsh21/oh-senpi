@@ -1,6 +1,6 @@
 {
   "name": "oh-senpi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A curated monorepo of Pi extensions, workflows, skills, and themes.",
   "type": "module",
   "author": "Aarsh <aarshpersonal@proton.me>",
