@@ -1,0 +1,4 @@
+node_modules/
+extensions/web-access/
+extensions/background-terminals/docs/
+extensions/subagents/docs/

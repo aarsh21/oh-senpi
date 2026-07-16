@@ -1,0 +1,8 @@
+{
+  "provider": "openai",
+  "webSearch": {
+    "enabled": true
+  },
+  "workflow": "none",
+  "allowBrowserCookies": false
+}

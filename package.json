@@ -1,0 +1,84 @@
+{
+  "name": "oh-senpi",
+  "version": "0.1.0",
+  "description": "A curated monorepo of Pi extensions, workflows, skills, and themes.",
+  "type": "module",
+  "author": "Aarsh <aarshpersonal@proton.me>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aarsh21/oh-senpi.git"
+  },
+  "homepage": "https://github.com/aarsh21/oh-senpi#readme",
+  "bugs": {
+    "url": "https://github.com/aarsh21/oh-senpi/issues"
+  },
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "extensions",
+    "subagents",
+    "web-search"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "npm run check && npm run format:check",
+    "test": "node --test --experimental-strip-types extensions/background-terminals/*.test.ts extensions/git-info/*.test.ts extensions/hunk-review/*.test.ts extensions/shared/*.test.ts extensions/subagents/manager.test.ts extensions/subagents/result-delivery.test.ts extensions/subagents/context-usage.test.ts extensions/subagents/takeover.test.ts extensions/workflows/*.test.ts extensions/web-access/test/*.test.mjs",
+    "test:live": "node --test --experimental-strip-types extensions/subagents/claude.test.ts extensions/subagents/codex.test.ts"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions/web-access/index.ts",
+      "./extensions/web-search-only.ts",
+      "./extensions/ask-user/index.ts",
+      "./extensions/background-terminals/index.ts",
+      "./extensions/copy-all/index.ts",
+      "./extensions/git-info/index.ts",
+      "./extensions/hunk-review/index.ts",
+      "./extensions/model-info/index.ts",
+      "./extensions/subagents/index.ts",
+      "./extensions/ui-customization/index.ts",
+      "./extensions/workflows/index.ts",
+      "./extensions/zed-prompt.ts"
+    ],
+    "skills": [
+      "./skills/background-terminals",
+      "./skills/subagents"
+    ],
+    "themes": [
+      "./themes"
+    ]
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "0.3.207",
+    "@effect/platform-node": "4.0.0-beta.98",
+    "@mozilla/readability": "0.6.0",
+    "acorn": "8.17.0",
+    "effect": "4.0.0-beta.98",
+    "linkedom": "0.16.11",
+    "p-limit": "6.2.0",
+    "turndown": "7.2.2",
+    "unpdf": "1.6.2"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-ai": "0.80.8",
+    "@earendil-works/pi-coding-agent": "0.80.8",
+    "@earendil-works/pi-tui": "0.80.8",
+    "@types/node": "26.1.1",
+    "prettier": "3.9.5",
+    "typebox": "1.3.6",
+    "typescript": "7.0.2"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
+  }
+}
